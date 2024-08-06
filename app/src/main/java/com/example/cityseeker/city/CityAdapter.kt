@@ -37,6 +37,7 @@ class CityAdapter(
         this.locations = newCities
         notifyDataSetChanged()
     }
+
     override fun onBindViewHolder(holder: CityViewHelper , position: Int) {
         val city = locations[position]
         holder.cityName.text = city.name
