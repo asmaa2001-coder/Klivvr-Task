@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cityseeker.R
+import com.example.cityseeker.databinding.FragmentCityFilterBinding
 import kotlinx.coroutines.launch
 
 
@@ -23,6 +24,8 @@ class CityFilter : Fragment() {
     private lateinit var searchView: androidx.appcompat.widget.SearchView
     lateinit var progressBar: ProgressBar
     private lateinit var cities: List<CityData>
+    private var _binding : FragmentCityFilterBinding? =null
+    private val binding get() =_binding!!
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,15 +36,19 @@ class CityFilter : Fragment() {
         inflater: LayoutInflater , container: ViewGroup? ,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_city_filter , container , false)
+        _binding=FragmentCityFilterBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)
-        recycler = view.findViewById(R.id.cities)
-        searchView = view.findViewById(R.id.search)
-        progressBar=view.findViewById(R.id.progressBar)
-        cities = HandleDateOfJson.getCities(requireActivity() , gsonName)
+        recycler = _binding?.cities !!
+        searchView = _binding?.search!!
+        progressBar=_binding?.progressBar!!
+
+       lifecycleScope.launch {
+           cities = CitiesProvider.getCities(requireActivity() , gsonName)
+       }
 
         setupRecycler()
         setupSearchFilter()
@@ -58,20 +65,20 @@ class CityFilter : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.isNullOrEmpty()) {
-                    (recycler.adapter as CityAdapter).updateData(emptyList())
+                    (binding.cities.adapter as CityAdapter).updateData(emptyList())
                 } else {
                     lifecycleScope.launch {
                         try {
-                            progressBar.visibility= view?.visibility ?:0
+                            binding.progressBar.visibility= view?.visibility ?:0
                             val filteredCities =
-                                HandleDateOfJson.findCity(requireActivity() , gsonName , newText)
-                            (recycler.adapter as CityAdapter).updateData(filteredCities)
-                            progressBar.visibility = View.GONE
+                                CitiesProvider.findCity(requireActivity() , gsonName , newText)
+                            (binding.cities.adapter as CityAdapter).updateData(filteredCities)
+                            binding.progressBar.visibility = View.GONE
 
                         } catch (e: Exception) {
                             Log.e("Error" , "${e.message}")
                         }
-                        progressBar.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
 
                     }
                 }
