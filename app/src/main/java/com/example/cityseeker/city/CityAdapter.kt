@@ -1,5 +1,6 @@
 package com.example.cityseeker.city
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ class CityAdapter(
 
 ) :
     RecyclerView.Adapter<CityAdapter.CityViewHelper>() {
-    var itemOnClick: ((CityData) -> Unit)? = null
 
     class CityViewHelper(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityName: TextView = itemView.findViewById(R.id.city_title)
@@ -33,6 +33,7 @@ class CityAdapter(
 
     override fun getItemCount() = locations.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newCities: List<CityData>) {
         this.locations = newCities
         notifyDataSetChanged()

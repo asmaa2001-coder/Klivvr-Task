@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ class CityFilter : Fragment() {
     val gsonName = "cities.json"
     private lateinit var recycler: RecyclerView
     private lateinit var searchView: androidx.appcompat.widget.SearchView
+    lateinit var progressBar: ProgressBar
     private lateinit var cities: List<CityData>
 
 
@@ -38,6 +40,7 @@ class CityFilter : Fragment() {
         super.onViewCreated(view , savedInstanceState)
         recycler = view.findViewById(R.id.cities)
         searchView = view.findViewById(R.id.search)
+        progressBar=view.findViewById(R.id.progressBar)
         cities = HandleDateOfJson.getCities(requireActivity() , gsonName)
 
         setupRecycler()
@@ -57,16 +60,19 @@ class CityFilter : Fragment() {
                 if (newText.isNullOrEmpty()) {
                     (recycler.adapter as CityAdapter).updateData(emptyList())
                 } else {
-                    // Show progress bar while loading data
-
                     lifecycleScope.launch {
                         try {
+                            progressBar.visibility= view?.visibility ?:0
                             val filteredCities =
                                 HandleDateOfJson.findCity(requireActivity() , gsonName , newText)
                             (recycler.adapter as CityAdapter).updateData(filteredCities)
+                            progressBar.visibility = View.GONE
+
                         } catch (e: Exception) {
                             Log.e("Error" , "${e.message}")
                         }
+                        progressBar.visibility = View.GONE
+
                     }
                 }
                 return true
