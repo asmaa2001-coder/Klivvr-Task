@@ -1,4 +1,4 @@
-package com.example.cityseeker.city
+package com.example.cityseeker.model
 
 data class CityData(
     val country: String,

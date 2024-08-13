@@ -1,4 +1,4 @@
-package com.example.cityseeker.city
+package com.example.cityseeker.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cityseeker.R
+import com.example.cityseeker.model.CityData
 
 class CityAdapter(
     var locations: List<CityData> , private val onItemClick: (CityData) -> Unit
@@ -39,11 +40,12 @@ class CityAdapter(
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CityViewHelper , position: Int) {
         val city = locations[position]
         holder.cityName.text = city.name
         holder.countryName.text = city.country
-        holder.latValue.text = "Lat : ${city.coord?.lat.toString()}"
+        holder.latValue.text = "Lat : ${city.coord.lat.toString()}"
         holder.lonValue.text = "Lon : ${city.coord?.lon.toString()}"
         holder.itemView.setOnClickListener { onItemClick(city) }
    }

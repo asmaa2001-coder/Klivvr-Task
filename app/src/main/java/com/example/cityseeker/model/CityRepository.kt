@@ -1,4 +1,4 @@
-package com.example.cityseeker.city
+package com.example.cityseeker.model
 
 import android.content.Context
 import com.google.gson.Gson
@@ -23,7 +23,7 @@ import java.io.InputStreamReader
  * non-blocking search operations.
  */
 
-object CitiesProvider {
+object CityRepository {
 
     private fun readJsonFile(context: Context , fileName: String): String {
         context.assets.open(fileName).use { inputStream ->

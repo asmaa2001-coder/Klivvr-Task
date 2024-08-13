@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cityFilter"
-        android:name="com.example.cityseeker.city.CityFilter"
+        android:name="com.example.cityseeker.view.CityFilter"
         android:label="fragment_city_filter"
         tools:layout="@layout/fragment_city_filter" />
 </navigation>

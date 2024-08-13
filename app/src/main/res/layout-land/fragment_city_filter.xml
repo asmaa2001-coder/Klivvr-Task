@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".city.CityFilter">
+    tools:context=".view.CityFilter">
 
     <!-- TODO: Update blank fragment layout -->
 

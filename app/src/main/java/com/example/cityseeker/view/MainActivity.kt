@@ -1,7 +1,8 @@
-package com.example.cityseeker
+package com.example.cityseeker.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.cityseeker.R
 
 
 class MainActivity : AppCompatActivity() {
