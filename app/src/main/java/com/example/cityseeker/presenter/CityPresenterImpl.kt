@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.example.cityseeker.model.CityData
 import com.example.cityseeker.model.CityRepository
 import com.example.cityseeker.view.CityViewer
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,10 +17,10 @@ class CityPresenterImpl(
     private val cityRepo: CityRepository,
     private val fileName:String
 ) : CityPresenter {
-
+    private val coroutineDispatcher:CoroutineDispatcher=Dispatchers.IO
     override suspend fun loadCities() {
         cityViewer?.showLoading()
-        val cities = withContext(Dispatchers.IO) {
+        val cities = withContext(coroutineDispatcher) {
             cityRepo.getCities(context , fileName)
         }
         if (cities.isNotEmpty()) {
